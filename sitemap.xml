@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://www.sufulu.top/about/index.html</loc>
+    
+    <lastmod>2018-01-13T04:16:32.421Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.sufulu.top/2018/01/07/hello-world/</loc>
+    
+    <lastmod>2018-01-13T03:55:03.075Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://www.sufulu.top/tags/index.html</loc>
     
     <lastmod>2018-01-09T15:05:36.932Z</lastmod>
@@ -12,20 +26,6 @@
     <loc>http://www.sufulu.top/categories/index.html</loc>
     
     <lastmod>2018-01-09T15:05:26.198Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.sufulu.top/about/index.html</loc>
-    
-    <lastmod>2018-01-09T15:05:17.081Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.sufulu.top/2018/01/07/hello-world/</loc>
-    
-    <lastmod>2018-01-09T13:51:56.632Z</lastmod>
     
   </url>
   
