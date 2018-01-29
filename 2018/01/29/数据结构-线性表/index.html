@@ -1,0 +1,1128 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+<script>
+    (function(){
+        if(''){
+            if (prompt('请输入文章密码') !== ''){
+                alert('密码错误！');
+                history.back();
+            }
+        }
+    })();
+</script>
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="线性表," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Prim博客" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="数据结构之线性表在开始数据结构前，先了解什么是数据结构？数据结构 + 算法 = 程序 数据结构的定义 数据结构是对在计算机内存中的数据的一种安排。也可以理解为对计算机运算的数据单元的一个抽象。也可以理解为数据结构是指在计算机内存空间中或磁盘中的组织形式。  数据结构的定义描述的有些抽象，举个栗子：">
+<meta name="keywords" content="线性表">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据结构-线性表(顺序表与链表的基本知识 以及ArrayList 源码分析)">
+<meta property="og:url" content="http://www.sufulu.top/2018/01/29/数据结构-线性表/index.html">
+<meta property="og:site_name" content="Prim博客">
+<meta property="og:description" content="数据结构之线性表在开始数据结构前，先了解什么是数据结构？数据结构 + 算法 = 程序 数据结构的定义 数据结构是对在计算机内存中的数据的一种安排。也可以理解为对计算机运算的数据单元的一个抽象。也可以理解为数据结构是指在计算机内存空间中或磁盘中的组织形式。  数据结构的定义描述的有些抽象，举个栗子：">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=120971917,3450162612&fm=27&gp=0.jpg">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2005932-7dcb210ddaf6d1ef.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2005932-708eb8bd9e883573.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2005932-443e56a912029dba.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2005932-bb945b185825dbbc.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2005932-19e7f804feefe67f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2005932-6f95ffd565d27b39.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2005932-c642dc23da016b45.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2005932-d8547c0e6e3aabb2.JPG?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2005932-16b46b9b673212b8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2018-01-29T15:29:25.526Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="数据结构-线性表(顺序表与链表的基本知识 以及ArrayList 源码分析)">
+<meta name="twitter:description" content="数据结构之线性表在开始数据结构前，先了解什么是数据结构？数据结构 + 算法 = 程序 数据结构的定义 数据结构是对在计算机内存中的数据的一种安排。也可以理解为对计算机运算的数据单元的一个抽象。也可以理解为数据结构是指在计算机内存空间中或磁盘中的组织形式。  数据结构的定义描述的有些抽象，举个栗子：">
+<meta name="twitter:image" content="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=120971917,3450162612&fm=27&gp=0.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.sufulu.top/2018/01/29/数据结构-线性表/"/>
+
+
+
+
+
+  <title>数据结构-线性表(顺序表与链表的基本知识 以及ArrayList 源码分析) | Prim博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Prim博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.sufulu.top/2018/01/29/数据结构-线性表/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Prim">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Prim博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">数据结构-线性表(顺序表与链表的基本知识 以及ArrayList 源码分析)</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-29T21:43:31+08:00">
+                2018-01-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/数据结构/" itemprop="url" rel="index">
+                    <span itemprop="name">数据结构</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i> 本文总阅读量
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>次
+            </span>
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  3,149
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  13
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="数据结构之线性表"><a href="#数据结构之线性表" class="headerlink" title="数据结构之线性表"></a>数据结构之线性表</h1><p>在开始数据结构前，先了解什么是数据结构？数据结构 + 算法 = 程序</p>
+<h2 id="数据结构的定义"><a href="#数据结构的定义" class="headerlink" title="数据结构的定义"></a>数据结构的定义</h2><blockquote>
+<p>数据结构是对在计算机内存中的数据的一种安排。也可以理解为对计算机运算的数据单元的一个抽象。也可以理解为数据结构是指在计算机内存空间中或磁盘中的组织形式。</p>
+</blockquote>
+<p>数据结构的定义描述的有些抽象，举个栗子：<br><img src="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=120971917,3450162612&amp;fm=27&amp;gp=0.jpg" alt="举个栗子"><br><a id="more"></a><br>比如：美女和野兽，抽象的事物表示美女：头发长 前凸后翘。。。 可以表示为一个数据单元，野兽也是一个数据单元。<br>我们可以这样理解，数据结构是描述个体的数据集合，包含两者的关系，数据与数据之前的关系，逻辑的结构。<br>比如：在人机对弈中，棋盘、棋子、人 三者的关系，棋盘存储起来  棋子是个单独的数据 人是个对象 三者之间的关系，错综复杂的关系组合起来就是数据结构。</p>
+<h3 id="数据结构的逻辑结构"><a href="#数据结构的逻辑结构" class="headerlink" title="数据结构的逻辑结构"></a>数据结构的逻辑结构</h3><ol>
+<li>集合结构</li>
+<li>线性结构</li>
+<li>树形结构</li>
+<li>图形结构</li>
+</ol>
+<h3 id="数据结构的存储结构"><a href="#数据结构的存储结构" class="headerlink" title="数据结构的存储结构"></a>数据结构的存储结构</h3><ol>
+<li>表</li>
+<li>堆栈</li>
+<li>队列</li>
+<li>数据</li>
+<li>树</li>
+<li>二叉树</li>
+<li>图</li>
+</ol>
+<p>了解了数据结构的基本内容，我们下面开始正题。</p>
+<h2 id="线性表"><a href="#线性表" class="headerlink" title="线性表"></a>线性表</h2><ol>
+<li>顺序存储结构</li>
+<li>链式存储结构</li>
+</ol>
+<h4 id="顺序存储结构"><a href="#顺序存储结构" class="headerlink" title="顺序存储结构"></a>顺序存储结构</h4><p>顺序存储结构可以理解为：<br>种菜，比如种萝卜，一个萝卜一个坑，从第一个一直按顺序种到最后一个。<br>再比如我们去银行办理业务，都要先取号排队，一个号都对应着一个人。<br>前后相关联的</p>
+<p>如下图所示：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2005932-7dcb210ddaf6d1ef.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>a1是a2的前驱，ai+1 是ai的后继，a1没有前驱，an没有后继<br>n为线性表的长度 ，若n==0时，线性表为空表.</p>
+<p>顺序表的类模型：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">class Array &#123;</span><br><span class="line">    arrays[40];</span><br><span class="line">    int size;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>顺序表用数组保存一系列的数据。</p>
+<p>顺序表的特征</p>
+<p>删除操作：<br><img src="http://upload-images.jianshu.io/upload_images/2005932-708eb8bd9e883573.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>从上图中我们可以看出，当中间部位离去一个后，就会将该位置的后面的所有节点向前移一位。这是顺序表的删除操作。</p>
+<p>中间插入操作：<br>     <img src="http://upload-images.jianshu.io/upload_images/2005932-443e56a912029dba.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="无标题.png"></p>
+<p>如上图所示，我们将ax 插入到 a2 - a3 之间，就需要将 a2 之后的所有数据向后移动一位。</p>
+<p>尾部插入：将非常简单直接在尾部插入就可以了。</p>
+<blockquote>
+<p>优点： 尾插效率高，支持随机访问。<br>缺点： 中间插入和删除效率低。<br>应用： ArrayList。 ArrayList 的底层实现便是对数组的操作。</p>
+</blockquote>
+<p>下面我们就分析一下 ArrayList 的源码</p>
+<h4 id="ArrayList-源码分析"><a href="#ArrayList-源码分析" class="headerlink" title="ArrayList 源码分析"></a>ArrayList 源码分析</h4><h5 id="ArrayList-继承结构开始分析"><a href="#ArrayList-继承结构开始分析" class="headerlink" title="ArrayList 继承结构开始分析"></a>ArrayList 继承结构开始分析</h5><blockquote>
+<p>public class ArrayList<e> extends AbstractList<e><br>implements List<e>, RandomAccess, Cloneable, java.io.Serializable</e></e></e></p>
+</blockquote>
+<ol>
+<li>ArrayList  是继承于AbstractList。 </li>
+</ol>
+<blockquote>
+<p>AbstractList<e> extends AbstractCollection<e> implements List<e><br>AbstractList 继承自AbstractCollection 抽象类，实现了list<br>接口，是ArrayList和AbstractSequentiaList 的父类,它实现了list 的一些位置相关的操作<br>(add,remove,get,set)<br>,是第一个实现随机访问的集合类，但不支持添加和替换，后续我们在分析AbstractList 源码。</e></e></e></p>
+</blockquote>
+<ol>
+<li>ArrayList 实现list 接口能对它进行队列操作</li>
+<li>ArrayList 实现了Cloneable接口，覆盖了函数clone()</li>
+<li>ArrayList 实现了java.io.Serializable 接口，支持序列化，能通过序列化传输数据</li>
+<li>ArrayList 实现了RandomAccess接口是List 实现所使用的标记接口，用来表明其支持快速（通常是固定时间）随机访问。此接口的主要目的是允许一般的算法更改其行为，从而在将其应用到随机或连续访问列表时能提供良好的性能。在对List特别的遍历算法中，要尽量来判断是属于RandomAccess(如ArrayList)还是SequenceAccess(如LinkedList），因为适合RandomAccess List的遍历算法，用在SequenceAccess List上就差别很大。</li>
+</ol>
+<h5 id="ArrayList-属性"><a href="#ArrayList-属性" class="headerlink" title="ArrayList 属性"></a>ArrayList 属性</h5><p>关键字transient 标识的字段的生命周期仅存于调用者的内存中而不会写到磁盘里持久化。<br>我们都知道一个对象只要实现了Serilizable接口，这个对象就可以被序列化，java的这种序列化模式为开发者提供了很多便利，我们可以不必关系具体序列化的过程，只要这个类实现了Serilizable接口，这个类的所有属性和方法都会自动序列化。<br>然而在实际开发过程中，我们常常会遇到这样的问题，这个类的有些属性需要序列化，而其他属性不需要被序列化，打个比方，如果一个用户有一些敏感信息（如密码，银行卡号等），为了安全起见，不希望在网络操作（主要涉及到序列化操作，本地序列化缓存也适用）中被传输，这些信息对应的变量就可以加上transient关键字。换句话说，这个字段的生命周期仅存于调用者的内存中而不会写到磁盘里持久化。<br>总之，java 的transient关键字为我们提供了便利，你只需要实现Serilizable接口，将不需要序列化的属性前添加关键字transient，序列化对象的时候，这个属性就不会序列化到指定的目的地中。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">    /**</span><br><span class="line">     * </span><br><span class="line">        ArrayList的元素存储在其中的数组缓冲区。</span><br><span class="line">             ArrayList的容量是这个数组缓冲区的长度。当添加第一个元素时，任何具有elementData == EMPTY_ELEMENTDATA的空ArrayList将展开为DEFAULT_CAPACITY。</span><br><span class="line">私有包允许从java.util.Collections访问。</span><br><span class="line">     */</span><br><span class="line">    transient Object[] elementData;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * The size of the ArrayList (the number of elements it contains).</span><br><span class="line">     *</span><br><span class="line">     * @serial</span><br><span class="line">     */</span><br><span class="line">    private int size;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        /**</span><br><span class="line">     * Default initial capacity.</span><br><span class="line">     */</span><br><span class="line">    private static final int DEFAULT_CAPACITY = 10;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * Shared empty array instance used for empty instances.</span><br><span class="line">     */</span><br><span class="line">    private static final Object[] EMPTY_ELEMENTDATA = &#123;&#125;;</span><br></pre></td></tr></table></figure>
+<p>ArrayList 就是对数组进行 添加 删除 修改操作的，默认初始的容量 DEFAULT_CAPACITY = 10</p>
+<h5 id="ArrayList-的构造函数"><a href="#ArrayList-的构造函数" class="headerlink" title="ArrayList 的构造函数"></a>ArrayList 的构造函数</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">// 定义容量 也就是数组的大小</span><br><span class="line">public ArrayList(int initialCapacity) &#123;</span><br><span class="line">        super();</span><br><span class="line">        // 若传入的值小于0 抛出异常</span><br><span class="line">        if (initialCapacity &lt; 0)</span><br><span class="line">            throw new IllegalArgumentException(&quot;Illegal Capacity: &quot;+</span><br><span class="line"> initialCapacity);</span><br><span class="line">        //初始化数组</span><br><span class="line">        this.elementData = new Object[initialCapacity];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 默认构造函数 初始化一个空的数组</span><br><span class="line">     */</span><br><span class="line">    public ArrayList() &#123;</span><br><span class="line">        super();</span><br><span class="line">        // private static final Object[] EMPTY_ELEMENTDATA = &#123;&#125;;</span><br><span class="line">        this.elementData = EMPTY_ELEMENTDATA;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 构造一个含有元素的列表</span><br><span class="line">     *</span><br><span class="line">     * @param c the collection whose elements are to be placed into this list</span><br><span class="line">     * @throws NullPointerException if the specified collection is null</span><br><span class="line">     */</span><br><span class="line">    public ArrayList(Collection&lt;? extends E&gt; c) &#123;</span><br><span class="line">        // 初始化含有元素的数组</span><br><span class="line">        elementData = c.toArray();</span><br><span class="line">        // 数组的大小</span><br><span class="line">        size = elementData.length;</span><br><span class="line">        // c.toArray might (incorrectly) not return Object[] (see 6260652)</span><br><span class="line">        if (elementData.getClass() != Object[].class)</span><br><span class="line">            elementData = Arrays.copyOf(elementData, size, Object[].class);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h5 id="ArrayList-添加元素"><a href="#ArrayList-添加元素" class="headerlink" title="ArrayList 添加元素"></a>ArrayList 添加元素</h5><h2 id="尾部添加"><a href="#尾部添加" class="headerlink" title="尾部添加"></a>尾部添加</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line">public boolean add(E e) &#123;</span><br><span class="line">        ensureCapacityInternal(size + 1);  // Increments modCount!!</span><br><span class="line">        //进行完数组的自增长后才向数组中添加元素</span><br><span class="line">        elementData[size++] = e;</span><br><span class="line">        return true;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void ensureCapacityInternal(int minCapacity) &#123;</span><br><span class="line">        //如果elementData 是个空数组 没有元素</span><br><span class="line">        if (elementData == EMPTY_ELEMENTDATA) &#123;</span><br><span class="line">            //minCapacity 取DEFAULT_CAPACITY 和 minCapacity 的最大值 </span><br><span class="line">            minCapacity = Math.max(DEFAULT_CAPACITY, minCapacity);</span><br><span class="line">        &#125;</span><br><span class="line">          </span><br><span class="line">        ensureExplicitCapacity(minCapacity);</span><br><span class="line">    &#125;</span><br><span class="line">    // 确保显式容量</span><br><span class="line">    private void ensureExplicitCapacity(int minCapacity) &#123;</span><br><span class="line">        modCount++;</span><br><span class="line"></span><br><span class="line">        // overflow-conscious code minCapacity 必须大于数组的长度 才可自增长</span><br><span class="line">        if (minCapacity - elementData.length &gt; 0)</span><br><span class="line">            grow(minCapacity);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">     // 实现数组的自增长</span><br><span class="line">     private void grow(int minCapacity) &#123;</span><br><span class="line">        // overflow-conscious code 添加元素之前的数组长度</span><br><span class="line">        int oldCapacity = elementData.length;</span><br><span class="line">        // 新的数组长度</span><br><span class="line">        int newCapacity = oldCapacity + (oldCapacity &gt;&gt; 1);</span><br><span class="line">        // 若新的数组长度 小于 最小增长的数组长度,则 newCapacity = minCapacity</span><br><span class="line">        if (newCapacity - minCapacity &lt; 0)</span><br><span class="line">            newCapacity = minCapacity;</span><br><span class="line">        //数组长度达到最大值    </span><br><span class="line">        if (newCapacity - MAX_ARRAY_SIZE &gt; 0)</span><br><span class="line">        //数组的最大长度</span><br><span class="line">            newCapacity = hugeCapacity(minCapacity);</span><br><span class="line">        // minCapacity is usually close to size, so this is a win:</span><br><span class="line">        // 对数组进行copy 扩大数组的长度</span><br><span class="line">        elementData = Arrays.copyOf(elementData, newCapacity);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">       private static int hugeCapacity(int minCapacity) &#123;</span><br><span class="line">        if (minCapacity &lt; 0) // overflow</span><br><span class="line">            throw new OutOfMemoryError();</span><br><span class="line">        return (minCapacity &gt; MAX_ARRAY_SIZE) ?</span><br><span class="line">            Integer.MAX_VALUE :</span><br><span class="line">            MAX_ARRAY_SIZE;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h2 id="中间插入-元素"><a href="#中间插入-元素" class="headerlink" title="中间插入 元素"></a>中间插入 元素</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">public void add(int index, E element) &#123;</span><br><span class="line">       if (index &gt; size || index &lt; 0)</span><br><span class="line">           throw new IndexOutOfBoundsException(outOfBoundsMsg(index));</span><br><span class="line"></span><br><span class="line">       ensureCapacityInternal(size + 1);  // Increments modCount!!</span><br><span class="line">       // 将插入元素 之后的数组后移一位 其实就是对数组的copy</span><br><span class="line">           src:源数组； </span><br><span class="line">           srcPos:源数组要复制的起始位置；</span><br><span class="line">           dest:目的数组；  </span><br><span class="line">           destPos:目的数组放置的起始位置；    l</span><br><span class="line">           ength:复制的长度。</span><br><span class="line">       System.arraycopy(elementData, index, elementData, index + 1,</span><br><span class="line">                        size - index);</span><br><span class="line">      // 向数组中添加元素</span><br><span class="line">       elementData[index] = element;</span><br><span class="line">       size++;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>不管是尾部插入 还是中间插入 都会对数组进行copy 效率不高。</p>
+</blockquote>
+<h2 id="查找元素"><a href="#查找元素" class="headerlink" title="查找元素 "></a>查找元素 </h2><p>非常简单并且效率 非常高<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public E get(int index) &#123;</span><br><span class="line">        if (index &gt;= size)</span><br><span class="line">            throw new IndexOutOfBoundsException(outOfBoundsMsg(index));</span><br><span class="line"></span><br><span class="line">        return (E) elementData[index];</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="替换元素"><a href="#替换元素" class="headerlink" title="替换元素"></a>替换元素</h2><p>非常简单并且效率 非常高<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">public E set(int index, E element) &#123;</span><br><span class="line">       if (index &gt;= size)</span><br><span class="line">           throw new IndexOutOfBoundsException(outOfBoundsMsg(index));</span><br><span class="line"></span><br><span class="line">       E oldValue = (E) elementData[index];</span><br><span class="line">       elementData[index] = element;</span><br><span class="line">       return oldValue;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="删除元素"><a href="#删除元素" class="headerlink" title="删除元素"></a>删除元素</h2><p>删除某个位置的元素 效率低<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">public E remove(int index) &#123;</span><br><span class="line">        // 删除元素的位置必须大于或等于数组的大小</span><br><span class="line">        if (index &gt;= size)</span><br><span class="line">            throw new IndexOutOfBoundsException(outOfBoundsMsg(index));</span><br><span class="line"></span><br><span class="line">        modCount++;</span><br><span class="line">        // 获取要删除的元素</span><br><span class="line">        E oldValue = (E) elementData[index];</span><br><span class="line">        //数据移动</span><br><span class="line">        int numMoved = size - index - 1;</span><br><span class="line">        // 若删除的不是最后一个</span><br><span class="line">        if (numMoved &gt; 0)</span><br><span class="line">            //对数组进行copy </span><br><span class="line">            src:源数组； </span><br><span class="line">            srcPos:源数组要复制的起始位置；</span><br><span class="line">            dest:目的数组；  </span><br><span class="line">            destPos:目的数组放置的起始位置；    l</span><br><span class="line">            ength:复制的长度。</span><br><span class="line">            System.arraycopy(elementData, index+1, elementData, index,</span><br><span class="line">                             numMoved);</span><br><span class="line">        // size - 1 前一位置空                     </span><br><span class="line">        elementData[--size] = null; // clear to let GC do its work</span><br><span class="line">        // 返回删除的元素</span><br><span class="line">        return oldValue;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>同理 删除元素 效率低<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">public boolean remove(Object o) &#123;</span><br><span class="line">       if (o == null) &#123;</span><br><span class="line">           for (int index = 0; index &lt; size; index++)</span><br><span class="line">               if (elementData[index] == null) &#123;</span><br><span class="line">                   fastRemove(index);</span><br><span class="line">                   return true;</span><br><span class="line">               &#125;</span><br><span class="line">       &#125; else &#123;</span><br><span class="line">           for (int index = 0; index &lt; size; index++)</span><br><span class="line">               // 找到这个位置的元素</span><br><span class="line">               if (o.equals(elementData[index])) &#123;</span><br><span class="line">                   fastRemove(index);</span><br><span class="line">                   return true;</span><br><span class="line">               &#125;</span><br><span class="line">       &#125;</span><br><span class="line">       return false;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   /*</span><br><span class="line">    * Private remove method that skips bounds checking and does not</span><br><span class="line">    * return the value removed.</span><br><span class="line">    */</span><br><span class="line">   private void fastRemove(int index) &#123;</span><br><span class="line">       modCount++;</span><br><span class="line">       int numMoved = size - index - 1;</span><br><span class="line">       if (numMoved &gt; 0)</span><br><span class="line">           System.arraycopy(elementData, index+1, elementData, index,</span><br><span class="line">                            numMoved);</span><br><span class="line">       elementData[--size] = null; // clear to let GC do its work</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>以上就是ArrayList 的核心方法，由此我们可以得出结论，顺序表最大的优点支持随机访问效率<br>很快，而最大的缺点就是 当数据量很大时，如果进行频繁的 删除 和 中间插入操作<br>将会非常慢 效率很低。在项目中要谨慎使用ArrayList</p>
+</blockquote>
+<h4 id="链式存储结构"><a href="#链式存储结构" class="headerlink" title="链式存储结构"></a>链式存储结构</h4><blockquote>
+<p>定义: 线性表的链式存储结构的特点是用一组任意的存储单元存储线性表的数据元素，这组数据<br>元素可以是连续的，也可以是不连续的。</p>
+<p>分类：<br>1： 单链表<br>2： 单循环链表<br>3： 双链表<br>4： 双向循环链表</p>
+</blockquote>
+<p>链表的模型类<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">class Node&#123;</span><br><span class="line">    Object data;</span><br><span class="line">    Node next;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="单链表"><a href="#单链表" class="headerlink" title="单链表"></a>单链表</h2><p><img src="http://upload-images.jianshu.io/upload_images/2005932-bb945b185825dbbc.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="单链表.jpg"></p>
+<p>如图所示: 每个节点都有一个数据域P-&gt;data 一个指针域 P-&gt; next -&gt; data 指针域指向的当前节点的下一个节点。</p>
+<p>单链表 增加元素 –&gt; 中间插入<br><img src="http://upload-images.jianshu.io/upload_images/2005932-19e7f804feefe67f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="单增.png"></p>
+<p>如图所示，可以看出，如果我们在中间插入一个元素，只需要将 插入节点的 前一个节点的指针域 之前要插入的节点，而插入节点的指针域 之前 后一个指针域，这样的插入 比ArrayList 的插入效率要高很多。</p>
+<p>同理如果需要尾部插入：只需要将最后一个节点的指针域 指向插入的节点。</p>
+<p>单链表的删除操作</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2005932-6f95ffd565d27b39.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="单减.png"></p>
+<p>如图所示： 如果要删除一个节点，只需要将 删除节点 的前一个节点的指针域 指向 删除节点的后一个节点。 这样删除要比 ArrayList的 删除效率要高很多。</p>
+<blockquote>
+<p>单链表的应用：<br>优点：头插，中间插，删除效率高。<br>缺点：不支持随机访问 （查找要进行循环的方式查找 效率低）<br>应用场景：<br>MessageQueue</p>
+</blockquote>
+<h2 id="双链表"><a href="#双链表" class="headerlink" title="双链表"></a>双链表</h2><p><img src="http://upload-images.jianshu.io/upload_images/2005932-c642dc23da016b45.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="双链表.jpg"></p>
+<p>如图所示：  明白上述的单链表，那么双链表 就很好理解了，同理 双链表 比 单链表 多了一个指针域 这个指针域 指向的是 前一个节点。</p>
+<p>双链表的插入操作</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2005932-d8547c0e6e3aabb2.JPG?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="双向链表插入.JPG"></p>
+<p>双链表的删除操作</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2005932-16b46b9b673212b8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="双链表删除.png"></p>
+<p>下期： 深入理解链表和手写链表以及面试中的问题</p>
+
+      
+    </div>
+    
+    
+    
+
+	<div>
+  
+    <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+  
+</div>
+	<div>
+      
+        
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+  
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <p><span>本文标题:</span><a href="/2018/01/29/数据结构-线性表/">数据结构-线性表(顺序表与链表的基本知识 以及ArrayList 源码分析)</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 Prim 的个人博客">Prim</a></p>
+  <p><span>发布时间:</span>2018年01月29日 - 21:01</p>
+  <p><span>最后更新:</span>2018年01月29日 - 23:01</p>
+  <p><span>原始链接:</span><a href="/2018/01/29/数据结构-线性表/" title="数据结构-线性表(顺序表与链表的基本知识 以及ArrayList 源码分析)">http://www.sufulu.top/2018/01/29/数据结构-线性表/</a>
+    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://www.sufulu.top/2018/01/29/数据结构-线性表/"  aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
+</div>
+<script> 
+    var clipboard = new Clipboard('.fa-clipboard');
+    $(".fa-clipboard").click(function(){
+      clipboard.on('success', function(){
+        swal({   
+          title: "",   
+          text: '复制成功',
+          icon: "success", 
+          showConfirmButton: true
+          });
+	});
+    });  
+</script>
+
+      
+    </div>
+    
+      <div>
+        <div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center">
+    <img id="wechat_subscriber_qcode" src="/uploads/wechat-qcode.jpg" alt="Prim wechat" style="width: 200px; max-width: 100%;"/>
+    <div>欢迎您扫一扫上面的微信公众号，订阅我的博客！</div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>Donate comment here</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="Prim 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="Prim 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/线性表/" <i class="fa fa-tag"></i> 线性表</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/01/13/hexo-搭建博客记录/" rel="next" title="hexo 搭建博客记录">
+                <i class="fa fa-chevron-left"></i> hexo 搭建博客记录
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+<span class="jiathis_txt">分享到：</span>
+<a class="jiathis_button_fav">收藏夹</a>
+<a class="jiathis_button_copy">复制网址</a>
+<a class="jiathis_button_email">邮件</a>
+<a class="jiathis_button_weixin">微信</a>
+<a class="jiathis_button_qzone">QQ空间</a>
+<a class="jiathis_button_tqq">腾讯微博</a>
+<a class="jiathis_button_douban">豆瓣</a>
+<a class="jiathis_button_share">一键分享</a>
+
+<a href="http://www.jiathis.com/share?uid=2140465" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+var jiathis_config={
+  data_track_clickback:true,
+  summary:"",
+  shortUrl:false,
+  hideMore:false
+}
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zMzA5OS85NjYw"></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Prim</p>
+              <p class="site-description motion-element" itemprop="description">Nothing is to be got without pain but poverty.</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/susussa" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:sufululove@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.jianshu.com/u/289346a467da" title="简书" target="_blank">简书</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.zhihu.com/people/su-xiao-bai-99-42/columns" title="知乎专栏" target="_blank">知乎专栏</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://blog.csdn.net/su19921021?ref=toolbar" title="CSDN" target="_blank">CSDN</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#数据结构之线性表"><span class="nav-number">1.</span> <span class="nav-text">数据结构之线性表</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#数据结构的定义"><span class="nav-number">1.1.</span> <span class="nav-text">数据结构的定义</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#数据结构的逻辑结构"><span class="nav-number">1.1.1.</span> <span class="nav-text">数据结构的逻辑结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据结构的存储结构"><span class="nav-number">1.1.2.</span> <span class="nav-text">数据结构的存储结构</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#线性表"><span class="nav-number">1.2.</span> <span class="nav-text">线性表</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#顺序存储结构"><span class="nav-number">1.2.0.1.</span> <span class="nav-text">顺序存储结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ArrayList-源码分析"><span class="nav-number">1.2.0.2.</span> <span class="nav-text">ArrayList 源码分析</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#ArrayList-继承结构开始分析"><span class="nav-number">1.2.0.2.1.</span> <span class="nav-text">ArrayList 继承结构开始分析</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#ArrayList-属性"><span class="nav-number">1.2.0.2.2.</span> <span class="nav-text">ArrayList 属性</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#ArrayList-的构造函数"><span class="nav-number">1.2.0.2.3.</span> <span class="nav-text">ArrayList 的构造函数</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#ArrayList-添加元素"><span class="nav-number">1.2.0.2.4.</span> <span class="nav-text">ArrayList 添加元素</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#尾部添加"><span class="nav-number">1.3.</span> <span class="nav-text">尾部添加</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#中间插入-元素"><span class="nav-number">1.4.</span> <span class="nav-text">中间插入 元素</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查找元素"><span class="nav-number">1.5.</span> <span class="nav-text">查找元素 </span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#替换元素"><span class="nav-number">1.6.</span> <span class="nav-text">替换元素</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#删除元素"><span class="nav-number">1.7.</span> <span class="nav-text">删除元素</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#链式存储结构"><span class="nav-number">1.7.0.1.</span> <span class="nav-text">链式存储结构</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#单链表"><span class="nav-number">1.8.</span> <span class="nav-text">单链表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#双链表"><span class="nav-number">1.9.</span> <span class="nav-text">双链表</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Prim</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">Site words total count&#58;</span>
+    
+    <span title="Site words total count">3.2k</span>
+  
+</div>
+
+<!-- 
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+-->
+
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共3.2k字</span>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i> 本站访客数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人次
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i> 本站总访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+</html>
